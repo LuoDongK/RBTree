@@ -105,19 +105,18 @@ class Node(object):
         # 父节点是3-节点且相邻兄弟节点为2-节点
         if self.__is_left() and self.parent.color:
             # 删除左侧的节点
-            temp1 = self.parent
+            self.parent = self.parent
             self.parent.right.__graft(self.parent.parent, True)
             if self.left and not self.right:
                 # 从__merge运行到这里
-                temp2 = self.parent.right.left
-                temp1.__graft(self.parent.parent.left, True)
-                temp1.left.left.__graft(temp1, True)
-                temp1.color = True
-                temp2.__graft(temp1, False)
+                self.parent.right.left.__graft(self.parent, False)
+                self.parent.__graft(self.parent.parent.left, True)
+                self.parent.left.left.__graft(self.parent, True)
+                self.parent.color = True
                 return True
             self.parent.right = None
-            temp1.__graft(self.parent.parent.left, True)
-            temp1.left = None
+            self.parent.__graft(self.parent.parent.left, True)
+            self.parent.left = None
             return True
         elif self.__is_right() and self.parent.color:
             # 删除中间节点
@@ -129,21 +128,19 @@ class Node(object):
             self.parent.right = None
             return True
         elif self.__is_right() and self.parent.left.color:
-            temp1 = self.parent
             self.parent.left.__graft(self.parent.parent, self.parent.__is_left())
             self.parent.left.color = False
             if self.left and not self.right:
                 # 从__merge运行到这里
-                temp2 = self.parent.left.right
-                temp1.__graft(self.parent.left, False)
-                temp1.right.left.__graft(temp1, False)
-                temp2.__graft(temp1, True)
-                temp2.color = True
+                self.parent.left.right.__graft(self.parent, True)
+                self.parent.left.color = True
+                self.parent.__graft(self.parent.parent, False)
+                self.parent.right.left.__graft(self.parent, False)
                 return True
-            temp1.__graft(self.parent.left.right, True)
-            temp1.left, temp1.right = None, None
-            temp1.color = True
-            temp1.__swap(temp1.parent)
+            self.parent.__graft(self.parent.left.right, True)
+            self.parent.left, self.parent.right = None, None
+            self.parent.color = True
+            self.parent.__swap(self.parent.parent)
             return True
         return False
 
@@ -377,7 +374,7 @@ class RBT(object):
         result = self.__root.delete(x)
         while self.__root.parent:
             self.__root = self.__root.parent
-        # self.__root.draw_tree(is_terminal=True)
+        self.__root.draw_tree(is_terminal=True)
         return result
 
     def search(self, x):
@@ -385,21 +382,13 @@ class RBT(object):
 
 
 if __name__ == '__main__':
-    items = [5, 14, 16, 3, 18, 2, 9, 15, 6, 17, 10, 19, 4, 1]
+    items = [7, 7.5, 2, 1, 3, 7.2, 7.1, 7.3, 9, 8, 10, 15]
     rbt = RBT(items[0])
     for item in items[1:]:
         rbt.add(item)
-    rbt.delete(6)
-    # 父节点为3-节点，且相邻节点均为2-节点：rbt.delete(15)
-    # 父节点与相邻节点均为2-节点，父节点的右节点为3-节点：rbt.delete(4) rbt.delete(10) rbt.delete(1) rbt.delete(5) rbt.delete(2)
-    # 父节点与相邻节点均为2-节点，父节点的左节点为3-节点：rbt.delete(15) rbt.delete(18) rbt.delete(16)
 
-    # items = [7, 7.5, 2, 1, 3, 7.2, 7.1, 7.3, 9, 8, 10, 11]
-    # rbt = RBT(items[0])
-    # for item in items[1:]:
-    #     rbt.add(item)
-    # rbt.delete(11)
-    # rbt.delete(7.1)
+    rbt.delete(15)
+    rbt.delete(8)
     # 父节点与相邻节点均为2-节点，父节点的相邻节点均为2-节点，父节点的父节点为3-节点：
     # 右侧节点：rbt.delete(10) 中间节点：rbt.delete(7.1) 左侧节点： rbt.delete(1)
 
@@ -407,6 +396,7 @@ if __name__ == '__main__':
     # rbt = RBT(items[0])
     # for item in items[1:]:
     #     rbt.add(item)
+
     # 一直向上合并，直至根节点：rbt.delete(16) rbt.delete(1)
     # 向上合并之后，父节点与相邻节点均为2-节点，父节点的右节点为3-节点：
     # rbt.add(10.5) rbt.add(10.6) rbt.add(10.7) rbt.add(10.8) rbt.delete(16) rbt.delete(3)

@@ -54,7 +54,7 @@
 ```
 &emsp;&emsp;以删除`节点1`为例。`节点1`的相邻`节点3`为`2-节点`，父节点`(2-7)`为`3-节点`。
 
-* 记录`节点2`并将`节点3`嫁接到`节点7`左侧(左上)。
+* 将`节点3`嫁接到`节点7`左侧(左上)。
 * 将`节点2`嫁接到`节点3`左侧(右上)。
 * 删除`节点1`(左下)。
 
@@ -66,20 +66,31 @@
 上移root，直至root满足Case A或Case B或root成为整棵树的根节点。
 ```
 #### Case C to Case A
-&emsp;&emsp;以删除`节点8`为例。`节点1`的相邻节点`节点10`为`2-节点`，`父节点9`为`2-节点`。
+&emsp;&emsp;以删除`节点8`为例。其相邻节点`节点10`，父节点`节点9`均为`2-节点`。
 
 * 上移`节点8`。此时，`节点8`的相邻节点`节点(2-7)`为`3-节点`，满足`Case A`的条件(左上)。
 * 合并`节点8`的子节点(右上)。
-* 记录`节点7.3`，进行(部分)`Case A`的操作(左下)。
+* 进行(部分)`Case A`的操作(左下)。
 * 将`节点10`嫁接到`节点7.5`的右侧，将`节点7.3`嫁接到`节点7.5`的左侧(右下)。
 
 <img src="Images/Case C-A 1.png" width="40%"> <img src="Images/Case C-A 2.png" width="40%">
 <img src="Images/Case C-A 3.png" width="40%"> <img src="Images/Case C-A 4.png" width="40%">
 
+#### Case C to Case B
+&emsp;&emsp;先添加`节点7.1`，添加后的树如下图所示。
 
+<img src="Images/Case C-B.png" width="40%"> 
 
+&emsp;&emsp;以删除`节点1`为例。其相邻节点`节点3`，父节点`节点2`均为`2-节点`。
 
+* 上移`节点1`。此时，`节点1`的父节点`节点(7-7.5)`为`3-节点`，满足`Case B`的条件(左上)。
+* 合并`节点1`的子节点(右上)。
+* 进行(部分)`Case B`的操作(左中)。
+* 将`节点7`嫁接到`节点7.2`的左侧，将`节点7.1`嫁接到`节点7`的右侧(右中)。
+* 将`节点3`嫁接到`节点7`左侧。
 
+<img src="Images/Case C-B 1.png" width="40%"> <img src="Images/Case C-B 2.png" width="40%">
+<img src="Images/Case C-B 3.png" width="40%"> <img src="Images/Case C-B 4.png" width="40%">
+<img src="Images/Case C-B 5.png" width="40%">
 
-
-
+#### Case C to Case C
