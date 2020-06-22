@@ -327,7 +327,7 @@ class Node(object):
         elif root.__swim_up():
             return True
 
-    def draw_tree(self, x=0, y=0, is_root=False, height=0, is_terminal=False):
+    def draw(self, x=0, y=0, is_root=False, height=0, is_terminal=False):
         if not is_root and is_terminal:
             assert not self.color
         plt.axis('off')
@@ -346,12 +346,12 @@ class Node(object):
             assert node.left.parent == node
             line_color = 'black' if not node.left.color else 'red'
             plt.plot([x, x - delta_x], [y, y - delta_y], color=line_color)
-            node.left.draw_tree(x - delta_x, y - delta_y, is_root=True, height=height + 1)
+            node.left.draw(x - delta_x, y - delta_y, is_root=True, height=height + 1)
         if node.right:
             assert node.right.parent == node
             line_color = 'black' if not node.right.color else 'red'
             plt.plot([x, x + delta_x], [y, y - delta_y], color=line_color)
-            node.right.draw_tree(x + delta_x, y - delta_y, is_root=True, height=height + 1)
+            node.right.draw(x + delta_x, y - delta_y, is_root=True, height=height + 1)
         if not is_root:
             plt.show()
 
@@ -364,7 +364,7 @@ class RBT(object):
         result = self.__root.add(x)
         while self.__root.parent:
             self.__root = self.__root.parent
-        # self.__root.draw_tree(is_terminal=True)
+        # self.__root.draw(is_terminal=True)
         return result is not False
 
     def delete(self, x):
@@ -374,36 +374,31 @@ class RBT(object):
         result = self.__root.delete(x)
         while self.__root.parent:
             self.__root = self.__root.parent
-        self.__root.draw_tree(is_terminal=True)
+        self.__root.draw(is_terminal=True)
         return result
 
     def search(self, x):
         return self.__root.search(x)
 
+    def draw(self):
+        self.__root.draw()
+
 
 if __name__ == '__main__':
-    # items = [7, 2, 1, 3, 7.2, 7.1, 7.3, 9, 8, 10, 15]
-    # rbt = RBT(items[0])
-    # for item in items[1:]:
-    #     rbt.add(item)
-    #
-    # rbt.delete(15)
-    # rbt.delete(8)
-    # 父节点与相邻节点均为2-节点，父节点的相邻节点均为2-节点，父节点的父节点为3-节点：
-    # 右侧节点：rbt.delete(10) 中间节点：rbt.delete(7.1) 左侧节点： rbt.delete(1)
-
-    items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+    items = [7, 7.5, 2, 1, 3, 7.2, 7.1, 7.3, 9, 8, 10]
     rbt = RBT(items[0])
     for item in items[1:]:
         rbt.add(item)
-    rbt.delete(16)
-    rbt.delete(1)
-    # 一直向上合并，直至根节点：rbt.delete(16) rbt.delete(1)
-    # 向上合并之后，父节点与相邻节点均为2-节点，父节点的右节点为3-节点：
-    # rbt.add(10.5) rbt.add(10.6) rbt.add(10.7) rbt.add(10.8) rbt.delete(16) rbt.delete(3)
-    # 向上合并之后，父节点与相邻节点均为2-节点，父节点的左节点为3-节点：
-    # rbt.add(1.5) rbt.add(1.6) rbt.add(1.7) rbt.add(1.8) rbt.delete(16) rbt.delete(3)
-    # 向上合并之后，父节点与相邻节点均为2-节点，父节点的相邻节点均为2-节点，父节点的父节点为3-节点：
-    # rbt.add(1.5) rbt.add(1.6) rbt.add(1.7) rbt.add(1.9) rbt.add(2.1)
-    # rbt.add(2.2) rbt.add(2.3) rbt.add(2.4) rbt.delete(16)
-    # 右侧节点：rbt.delete(15) 左侧节点：rbt.delete(1) 中间节点：rbt.delete(5)
+
+    rbt.delete(7.1)
+    # Case A: rbt.delete(3)
+    # Case B: rbt.delete(1)
+    # Case C-A: rbt.delete(8)
+    # Case C-B: rbt.delete(7.1)
+
+    # items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+    # rbt = RBT(items[0])
+    # for item in items[1:]:
+    #     rbt.add(item)
+    # rbt.delete(16)
+    # Case C-C: rbt.delete(1)
