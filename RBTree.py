@@ -163,15 +163,15 @@ class Node(object):
                     node.left.__swap(node.parent)
                     node.__swap(node.left)
                     node.right.__graft(node.parent, True)
-                    return switch_node
-                elif node.__is_left():
+                    return switch_node, direction
+                else:
                     switch_node = node.right
                     node.left.__graft(node.parent, True)
                     node.left.color = False
-                    return switch_node
+                    return switch_node, direction
             elif node.left:
-                node.__swap(node.left)
-                node.parent.left = None
+                node.left.__graft(node.parent, True)
+                node.left.color = False
             return True
 
         # 当父节点为2-节点时或父节点为3-节点但不涉及到右侧节点时
@@ -217,8 +217,9 @@ class Node(object):
         self.__swap(self.parent)
         merge_children(self)
         temp = self.left
-        if switch_node := self.__steal_from_siblings():
-            if temp.parent.__is_right():
+        if info := self.__steal_from_siblings():
+            switch_node, direction = info[0], info[1]
+            if direction == 'ml' or direction == 'rm':
                 temp.parent.left.__graft(temp.parent, False)
                 switch_node.__graft(temp.parent, True)
             else:
@@ -316,9 +317,9 @@ class Node(object):
             root.parent.left = None
             return True
         elif root.left and root.left.color:
-            # 若root是3-节点较大键，与较小键交换后删除
-            root.__swap(root.left)
-            root.parent.left = None
+            # 若root是3-节点较大键，将较小键接到父节点上，并改变颜色。
+            root.left.__graft(root.parent, self.__is_left())
+            root.left.color = False
             return True
         elif root.__steal_from_siblings() is not False:
             # 若root的兄弟节点存在3-节点
