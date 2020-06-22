@@ -382,21 +382,22 @@ class RBT(object):
 
 
 if __name__ == '__main__':
-    items = [7, 7.5, 2, 1, 3, 7.2, 7.1, 7.3, 9, 8, 10, 15]
-    rbt = RBT(items[0])
-    for item in items[1:]:
-        rbt.add(item)
-
-    rbt.delete(15)
-    rbt.delete(8)
-    # 父节点与相邻节点均为2-节点，父节点的相邻节点均为2-节点，父节点的父节点为3-节点：
-    # 右侧节点：rbt.delete(10) 中间节点：rbt.delete(7.1) 左侧节点： rbt.delete(1)
-
-    # items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+    # items = [7, 2, 1, 3, 7.2, 7.1, 7.3, 9, 8, 10, 15]
     # rbt = RBT(items[0])
     # for item in items[1:]:
     #     rbt.add(item)
+    #
+    # rbt.delete(15)
+    # rbt.delete(8)
+    # 父节点与相邻节点均为2-节点，父节点的相邻节点均为2-节点，父节点的父节点为3-节点：
+    # 右侧节点：rbt.delete(10) 中间节点：rbt.delete(7.1) 左侧节点： rbt.delete(1)
 
+    items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+    rbt = RBT(items[0])
+    for item in items[1:]:
+        rbt.add(item)
+    rbt.delete(16)
+    rbt.delete(1)
     # 一直向上合并，直至根节点：rbt.delete(16) rbt.delete(1)
     # 向上合并之后，父节点与相邻节点均为2-节点，父节点的右节点为3-节点：
     # rbt.add(10.5) rbt.add(10.6) rbt.add(10.7) rbt.add(10.8) rbt.delete(16) rbt.delete(3)

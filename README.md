@@ -63,7 +63,7 @@
 ### Case C
 &emsp;&emsp;该情况是最复杂的情况。对于此类情况，核心思想为：
 ```
-上移root，直至root满足Case A或Case B或root成为整棵树的根节点。
+上移root，直至root满足Case A或Case B或root是整棵树的根节点。
 ```
 #### Case C to Case A
 &emsp;&emsp;以删除`节点8`为例。其相邻节点`节点10`，父节点`节点9`均为`2-节点`。
@@ -83,14 +83,35 @@
 
 &emsp;&emsp;以删除`节点1`为例。其相邻节点`节点3`，父节点`节点2`均为`2-节点`。
 
-* 上移`节点1`。此时，`节点1`的父节点`节点(7-7.5)`为`3-节点`，满足`Case B`的条件(左上)。
+* 上移`节点1`。此时，`节点1`的相邻节点`节点7.2`为`2-节点`，父节点`节点(7-7.5)`为`3-节点`，满足`Case B`的条件(左上)。
 * 合并`节点1`的子节点(右上)。
 * 进行(部分)`Case B`的操作(左中)。
 * 将`节点7`嫁接到`节点7.2`的左侧，将`节点7.1`嫁接到`节点7`的右侧(右中)。
-* 将`节点3`嫁接到`节点7`左侧。
+* 将`节点3`嫁接到`节点7`左侧(左下)。
 
 <img src="Images/Case C-B 1.png" width="40%"> <img src="Images/Case C-B 2.png" width="40%">
 <img src="Images/Case C-B 3.png" width="40%"> <img src="Images/Case C-B 4.png" width="40%">
 <img src="Images/Case C-B 5.png" width="40%">
 
 #### Case C to Case C
+&emsp;&emsp;为更好说明此情况，用如下树进行说明：
+
+<img src="Images/Case C-C.png" width="40%">
+
+&emsp;&emsp;以删除`节点1`为例。其相邻节点`节点3`，父节点`节点2`均为`2-节点`。
+
+* 上移`节点1`。此时，`节点1`的相邻节点`节点6`为`2-节点`，父节点`节点4`为`2-节点`，不满足`Case A`或`Case B`的条件(左上)。
+* 合并`节点1`的子节点并上移`节点1`。此时，`节点1`的相邻节点`节点12`为`2-节点`，父节点`节点8`为`2-节点`，不满足`Case A`或`Case B`的条件(右上)。
+* 合并`节点1`的子节点并上移`节点1`。此时，`节点1`是整棵树的根节点(左下)。
+* 将`节点8`与`节点12`合并为`3-节点`，并将其作为新的根节点(右下)。
+
+<img src="Images/Case C-C 1.png" width="40%"> <img src="Images/Case C-C 2.png" width="40%">
+<img src="Images/Case C-C 3.png" width="40%"> <img src="Images/Case C-C 4.png" width="40%">
+
+&emsp;&emsp;若过程中发现`root`满足`Case A`或`Case B`的条件，则直接转化为`Case C to Case A`或`Case C to Case B`即可。
+
+
+
+
+
+
