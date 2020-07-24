@@ -148,7 +148,8 @@ class Node(object):
         def switch_to_siblings(node: Node, direction):
             node.__swap(node.parent) if direction != 'mr' else node.__swap(node.parent.parent)
             if direction == 'lm' or direction == 'mr':
-                node.__swap(node.right)
+                node.__swap(node.right.left)
+                node.__swap(node.parent)
             elif direction == 'ml':
                 node.__swap(node.left)
             elif direction == 'rm':
@@ -166,8 +167,8 @@ class Node(object):
                     node.left.__graft(node.parent, True)
                     node.left.color = False
                     return switch_node, direction
-            elif node.left:
-                node.left.__graft(node.parent, True)
+            else:
+                node.left.__graft(node.parent, node.__is_left())
                 node.left.color = False
             return True
 

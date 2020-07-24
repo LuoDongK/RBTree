@@ -41,11 +41,11 @@
 &emsp;&emsp;以删除`节点3`为例。节点3的相邻节点`节点(7.2-7.3)`为`3-节点`。
 
 * 将`节点3`与`节点7`交换(左上)。
-* 将`节点3`与`节点7.3`交换(右上)。
-* 将`节点7.2`嫁接到`节点7.3`右侧并改变其颜色(左下)。
+* 将`节点3`与`节点7.2`交换(右上)。
+* 将`节点7.3`嫁接到`节点7.2`右侧并改变其颜色(左下)。
 
 <img src="Images/Case A 1.png" width="40%">  <img src="Images/Case A 2.png" width="40%">  
-<img src="Images/Case A 4.png" width="40%">
+<img src="Images/Case A 3.png" width="40%">
 
 ### Case B
 &emsp;&emsp;对于此类情况，核心思想为：
